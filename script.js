@@ -1,3 +1,4 @@
+
 // Countdown Timer
 function updateCountdown() {
     // Data do casamento - ajuste aqui

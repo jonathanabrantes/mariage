@@ -59,17 +59,24 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--baby-pink) 0%, var(--pink-pale) 30%, var(--pink-light) 60%, var(--pink-bright) 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
     text-align: center;
     color: var(--text-dark);
+    overflow: hidden;
 }
 
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* Hero Background Image */
+.hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    z-index: 0;
+    filter: blur(0.5px);
 }
 
 .hero-overlay {
@@ -78,13 +85,18 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-    opacity: 0.3;
+    background: linear-gradient(135deg, 
+        rgba(255, 245, 248, 0.75) 0%, 
+        rgba(255, 240, 245, 0.70) 30%,
+        rgba(252, 228, 236, 0.65) 60%,
+        rgba(248, 187, 208, 0.60) 100%);
+    z-index: 2;
+    backdrop-filter: blur(0.3px);
 }
 
 .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 10;
     padding: 20px;
     animation: fadeInUp 1s ease-out;
 }
@@ -174,6 +186,7 @@ body {
     animation: bounce 2s infinite;
     font-size: 2rem;
     color: var(--red-earth-dark);
+    z-index: 10;
 }
 
 @keyframes bounce {
@@ -409,6 +422,14 @@ body {
     color: var(--text-dark);
 }
 
+.detail-arrival {
+    font-weight: 600;
+    color: var(--red-vibrant);
+    font-size: 0.95rem;
+    margin-top: 8px;
+    font-style: italic;
+}
+
 .detail-address a {
     color: var(--red-earth-dark);
     text-decoration: none;
@@ -428,20 +449,40 @@ body {
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
     margin-top: 50px;
 }
 
 .gallery-item {
-    aspect-ratio: 1;
     overflow: hidden;
     border-radius: 15px;
     box-shadow: 0 4px 15px var(--shadow);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
 }
 
 .gallery-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px var(--shadow-strong);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+    display: block;
+}
+
+.gallery-item:hover img {
     transform: scale(1.05);
 }
 

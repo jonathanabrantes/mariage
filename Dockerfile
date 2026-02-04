@@ -4,6 +4,7 @@ FROM nginx:alpine
 COPY index.html /usr/share/nginx/html/
 COPY styles.css /usr/share/nginx/html/
 COPY script.js /usr/share/nginx/html/
+COPY img/ /usr/share/nginx/html/img/
 
 # Expor porta 80 (nginx padrão)
 EXPOSE 80
