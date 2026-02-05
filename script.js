@@ -82,34 +82,48 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const rsvpForm = document.getElementById('rsvp-form');
 const rsvpMessage = document.getElementById('rsvp-message');
 
+// Número do WhatsApp para confirmação (altere aqui com o número desejado)
+// Formato: código do país + DDD + número (ex: 5511999999999)
+const WHATSAPP_NUMBER = '+5561983611616'; //
+
 rsvpForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
-    const formData = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        guests: document.getElementById('guests').value,
-        message: document.getElementById('message').value
-    };
-
-    // Simulação de envio (você pode integrar com um backend aqui)
-    // Por enquanto, apenas mostra mensagem de sucesso
-    setTimeout(() => {
-        rsvpMessage.textContent = `Obrigado, ${formData.name}! Sua confirmação foi registrada. Aguardamos você e seus ${formData.guests} convidado(s)!`;
-        rsvpMessage.className = 'rsvp-message success';
-        rsvpForm.reset();
-        
-        // Scroll para a mensagem
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    
+    // Validação básica
+    if (!name || !phone) {
+        rsvpMessage.textContent = 'Por favor, preencha todos os campos.';
+        rsvpMessage.className = 'rsvp-message error';
+        rsvpMessage.style.display = 'block';
         rsvpMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        
-        // Opcional: salvar no localStorage
-        const confirmations = JSON.parse(localStorage.getItem('rsvpConfirmations') || '[]');
-        confirmations.push({
-            ...formData,
-            timestamp: new Date().toISOString()
-        });
-        localStorage.setItem('rsvpConfirmations', JSON.stringify(confirmations));
-    }, 500);
+        return;
+    }
+    
+    // Formatar mensagem
+    const message = `Oii, eu ${name}, de número ${phone} confirmo presença no seu casamento dia 08/01 no Santuário Menino Jesus às 10:30!`;
+    
+    // Codificar mensagem para URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Criar URL do WhatsApp
+    // Usa wa.me que funciona tanto no app quanto no web
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+    
+    // Abrir WhatsApp em nova aba
+    window.open(whatsappUrl, '_blank');
+    
+    // Mostrar mensagem de sucesso
+    rsvpMessage.textContent = `Redirecionando para o WhatsApp, ${name}!`;
+    rsvpMessage.className = 'rsvp-message success';
+    rsvpMessage.style.display = 'block';
+    rsvpMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    
+    // Limpar formulário após um breve delay
+    setTimeout(() => {
+        rsvpForm.reset();
+    }, 1000);
 });
 
 // Fade in on scroll
